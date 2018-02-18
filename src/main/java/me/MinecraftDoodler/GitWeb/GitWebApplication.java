@@ -56,16 +56,10 @@ public class GitWebApplication extends Application {
 	    		siteView.setWrapText(true);
 	    		siteView.setPlaceholder("  If you can see this page it either means you entered an address with no text or your not connected to the internet.\n\n  Gitweb can be accessed via an address like pickaxes.info, the word after the dot denotes the folder within the root directory and the first word identifies the filename of the site within said folder. \n \n  You can also access pastebin files by entering pastebin:PASTE_ID, this feature was added just to add an option for users to experiement with ideas and test the markup. \n \n  Remember in order to function correctly GitWeb and Minecraft itself need access to the internet.");
 	    
-	    	OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/official/welcome");	    	
-	    	this.setCurrentLayout(Browser);
+	    		GitWebLink("welcome.official");
+	    		this.setCurrentLayout(Browser);
 	    		
-	    		
-	    	
-	    	
-	    		
-
-	    		
-	    		
+	    			
 	    		searchBtn.setClickListener((mouseX, mouseY, mouseButton) -> {
 	    		
 	    			String address;
@@ -74,25 +68,14 @@ public class GitWebApplication extends Application {
 	    		
 	    			if(address.startsWith("pastebin:") || address.startsWith("rawpastebin:") || address.startsWith("rawpaste:")) {
 	    				OnlineRe("https://pastebin.com/raw/" + address.replace("paste", "").replace("raw", "").replace("bin", "").replace(":", "") + "/");
-	    		}
-	    			else if(address.contains(".")) {
-	    				String[] urlA = address.split("\\.", -1);	
-	    					if(!address.contains("/")) {
-	    						OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/" + urlA[1] + "/" + urlA[0]);
-	    					}else if(address.contains("/")) {
-	    						String[] urlB = urlA[1].split("/", -1);
-	    						OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/" + urlB[0] + "/" + urlA[0] + "-sub/" + urlB[1]);
-	    					}
-	    					}else {
-	    					siteView.setText("That address doesn't look right");
-		    		}
+	    		}else
+	    			GitWebLink(address);
 	    			bar.setFocused(false);
 	    		});
 	    		
 	    		homeBtn.setClickListener((mouseX, mouseY, mouseButton) -> {
 	    			
-	    				OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/official/welcome");
-	    		
+	    					GitWebLink("welcome.official");
 	    		});
 	    		
 	    		settingsBtn.setClickListener((mouseX, mouseY, mouseButton) -> {
@@ -107,9 +90,31 @@ public class GitWebApplication extends Application {
 		System.out.println(URL);
 		OnlineRequest.getInstance().make(URL,
         		(success, response)-> {
+        			if(response.startsWith("redirect>")) {
+        				String reD = response;
+        				reD = reD.substring(reD.indexOf(">") + 1);
+        				reD = reD.substring(0, reD.indexOf("<"));
+        				GitWebLink(reD);
+        			}
         			siteView.setText(response);
         			bar.setFocused(false);
         		});
+	}
+	
+	void GitWebLink(String address) {
+		if(address.contains(".")) {
+			bar.setText(address);
+			bar.setFocused(false);
+			String[] urlA = address.split("\\.", -1);	
+				if(!address.contains("/")) {
+					OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/" + urlA[1] + "/" + urlA[0]);
+				}else if(address.contains("/")) {
+					String[] urlB = urlA[1].split("/", -1);
+					OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/" + urlB[0] + "/" + urlA[0] + "-sub/" + urlB[1]);
+				}
+				}else {
+				siteView.setText("That address doesn't look right");
+		}
 	}
 	
 	@Override
