@@ -37,7 +37,7 @@ public class GitWebApplication extends Application {
 	    addComponent(bar);
 			bar.setPlaceholder("Enter Address");
 	    addComponent(searchBtn);
-	    		searchBtn.setToolTip("Request Site", "Attempts to get the GitWeb site.");
+	    		searchBtn.setToolTip("Request Site", "Loads the entered address.");
 	    	addComponent(helpBtn);
 	    		helpBtn.setToolTip("Useful Sites", "Loads \'usefulsites.info\'.");
 	    addComponent(siteView);
