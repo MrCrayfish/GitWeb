@@ -1,0 +1,17 @@
+[
+{
+  "modid": "gitwebapp",
+  "name": "GitWeb",
+  "description": "A working Web Browser in minecraft!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["MinecraftDoodler"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+  "parent": [cdm]
+}
+]

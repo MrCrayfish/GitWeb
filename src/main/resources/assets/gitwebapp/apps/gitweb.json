@@ -1,0 +1,10 @@
+{
+    "name": "GitWeb",
+    "author": "MinecraftDoodler",
+    "description": "${desc}",
+    "version": "0.0.1",
+    "icon": "gitwebapp:textures/app/icon/gitweb.png",
+    "screenshots": [
+
+    ]
+}
