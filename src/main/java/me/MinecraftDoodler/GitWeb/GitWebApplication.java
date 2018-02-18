@@ -56,7 +56,7 @@ public class GitWebApplication extends Application {
 	    		siteView.setWrapText(true);
 	    		siteView.setPlaceholder("  If you can see this page it either means you entered an address with no text or your not connected to the internet.\n\n  Gitweb can be accessed via an address like pickaxes.info, the word after the dot denotes the folder within the root directory and the first word identifies the filename of the site within said folder. \n \n  You can also access pastebin files by entering pastebin:PASTE_ID, this feature was added just to add an option for users to experiement with ideas and test the markup. \n \n  Remember in order to function correctly GitWeb and Minecraft itself need access to the internet.");
 	    
-	    		GitWebLink("welcome.official");
+	    		GitWebLink("welcome.official", false);
 	    		this.setCurrentLayout(Browser);
 	    		
 	    			
@@ -69,13 +69,13 @@ public class GitWebApplication extends Application {
 	    			if(address.startsWith("pastebin:") || address.startsWith("rawpastebin:") || address.startsWith("rawpaste:")) {
 	    				OnlineRe("https://pastebin.com/raw/" + address.replace("paste", "").replace("raw", "").replace("bin", "").replace(":", "") + "/");
 	    		}else
-	    			GitWebLink(address);
+	    			GitWebLink(address, false);
 	    			bar.setFocused(false);
 	    		});
 	    		
 	    		homeBtn.setClickListener((mouseX, mouseY, mouseButton) -> {
 	    			
-	    					GitWebLink("welcome.official");
+	    					GitWebLink("welcome.official", false);
 	    		});
 	    		
 	    		settingsBtn.setClickListener((mouseX, mouseY, mouseButton) -> {
@@ -94,7 +94,14 @@ public class GitWebApplication extends Application {
         				String reD = response;
         				reD = reD.substring(reD.indexOf(">") + 1);
         				reD = reD.substring(0, reD.indexOf("<"));
-        				GitWebLink(reD);
+        				GitWebLink(reD, false);
+        				return;
+        			}
+        			if(response.startsWith("masked_redirect>")) {
+        				String reD = response;
+        				reD = reD.substring(reD.indexOf(">") + 1);
+        				reD = reD.substring(0, reD.indexOf("<"));
+        				GitWebLink(reD, true);
         				return;
         			}
         			siteView.setText(response);
@@ -102,9 +109,11 @@ public class GitWebApplication extends Application {
         		});
 	}
 	
-	void GitWebLink(String address) {
+	void GitWebLink(String address, Boolean masked) {
 		if(address.contains(".")) {
+			if(!masked) {
 			bar.setText(address);
+			}
 			bar.setFocused(false);
 			String[] urlA = address.split("\\.", -1);	
 				if(!address.contains("/")) {
