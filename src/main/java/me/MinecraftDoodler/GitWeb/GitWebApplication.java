@@ -5,6 +5,7 @@ import java.awt.Color;
 import com.mrcrayfish.device.api.app.Application;
 import com.mrcrayfish.device.api.app.Icons;
 import com.mrcrayfish.device.api.app.component.Button;
+import com.mrcrayfish.device.api.app.component.Spinner;
 import com.mrcrayfish.device.api.app.component.Text;
 import com.mrcrayfish.device.api.app.component.TextArea;
 import com.mrcrayfish.device.api.app.component.TextField;
@@ -29,15 +30,16 @@ public class GitWebApplication extends Application {
 	    this.setDefaultWidth(400);
 	    
 	    bar = new TextField(3, 5, 318);
-	    		bar.setPlaceholder("Enter Address");
 	    searchBtn = new Button(342, 5, 16, 16, Icons.RELOAD);
 	    helpBtn = new Button(324, 5, 16, 16, Icons.INFO);
 	    siteView = new TextArea(3, 25, 355, 135); //100
+
 	    addComponent(bar);
+			bar.setPlaceholder("Enter Address");
 	    addComponent(searchBtn);
 	    		searchBtn.setToolTip("Request Site", "Attempts to get the GitWeb site.");
 	    	addComponent(helpBtn);
-	    		searchBtn.setToolTip("Useful Sites", "Loads \'usefulsites.info\'.");
+	    		helpBtn.setToolTip("Useful Sites", "Loads \'usefulsites.info\'.");
 	    addComponent(siteView);
 	    		siteView.setEditable(false);
 	    		siteView.setWrapText(true);
@@ -65,7 +67,7 @@ public class GitWebApplication extends Application {
 	    	        			bar.setText(urlA[0] + "." + urlA[1]);
 	    	        		});
 		    		}else {
-		    			siteView.setText("000: Invalid Suffix");
+		    			siteView.setText("That address didn't look right");
 		    		}
 	    		bar.setFocused(false);
 	    		});
