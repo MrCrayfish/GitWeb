@@ -95,6 +95,7 @@ public class GitWebApplication extends Application {
         				reD = reD.substring(reD.indexOf(">") + 1);
         				reD = reD.substring(0, reD.indexOf("<"));
         				GitWebLink(reD);
+        				return;
         			}
         			siteView.setText(response);
         			bar.setFocused(false);
