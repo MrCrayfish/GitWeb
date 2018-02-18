@@ -1,7 +1,7 @@
 {
     "name": "GitWeb",
     "author": "MinecraftDoodler",
-    "description": "${desc}",
+    "description": "It's a web browser of some sort!",
     "version": "0.0.1",
     "icon": "gitwebapp:textures/app/icon/gitweb.png",
     "screenshots": [

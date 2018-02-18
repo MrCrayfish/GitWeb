@@ -19,7 +19,8 @@ import net.minecraftforge.common.network.ServerToClientConnectionEstablishedHand
 public class GitWebApplication extends Application {
 
 	public Button searchBtn;
-	public Button helpBtn;
+	public Button homeBtn;
+	public Button settingsBtn;
 	public TextField bar;
 	public TextArea siteView;
 	
@@ -29,20 +30,24 @@ public class GitWebApplication extends Application {
 	    this.setDefaultHeight(240);
 	    this.setDefaultWidth(400);
 	    
-	    bar = new TextField(3, 5, 318);
-	    searchBtn = new Button(342, 5, 16, 16, Icons.RELOAD);
-	    helpBtn = new Button(324, 5, 16, 16, Icons.INFO);
+	    bar = new TextField(3, 5, 304);
+	    searchBtn = new Button(306, 5, 16, 16, Icons.RELOAD);
+	    homeBtn = new Button(324, 5, 16, 16, Icons.HOME);
+	    settingsBtn = new Button(342, 5, 16, 16, Icons.WRENCH);
 	    siteView = new TextArea(3, 25, 355, 135); //100
 
 	    addComponent(bar);
 			bar.setPlaceholder("Enter Address");
 	    addComponent(searchBtn);
-	    		searchBtn.setToolTip("Request Site", "Loads the entered address.");
-	    	addComponent(helpBtn);
-	    		helpBtn.setToolTip("Useful Sites", "Loads \'usefulsites.info\'.");
+	    		searchBtn.setToolTip("Refresh", "Loads the entered address.");
+	    	addComponent(homeBtn);
+	    		homeBtn.setToolTip("Home", "Loads page set in settings.");
+	    	 addComponent(settingsBtn);
+	    		settingsBtn.setToolTip("Settings", "Change your preferences.");
 	    addComponent(siteView);
 	    		siteView.setEditable(false);
 	    		siteView.setWrapText(true);
+	    		siteView.setPlaceholder("  Gitweb can be accessed via an address like pickaxes.info, the word after the dot denotes the folder within the root directory and the first word identifies the filename of the site within said folder. \n \n  You can also access pastebin files by entering pastebin:PASTE_ID, this feature was added just to add an option for users to experiement with ideas and test the markup. \n \n  Remember in order to function correctly GitWeb and Minecraft itself need access to the internet.");
 	    
 	    		searchBtn.setClickListener((mouseX, mouseY, mouseButton) -> {
 	    		
@@ -51,41 +56,31 @@ public class GitWebApplication extends Application {
 	    		address.replace(" ", "");
 	    		
 	    		if(address.startsWith("pastebin:")) {
-	    			
-	    			OnlineRequest.getInstance().make("https://pastebin.com/raw/" + address.replace("pastebin:", "") + "/",
-	    	        		(success, response)-> {
-	    	        			siteView.setText(response);
-	    	        			bar.setText("§aRaw Pastebin Loaded!");
-	    	        		});
-	    			logI("pastebin.com/raw/" + address.replace("pastebin:", ""));
+	    			OnlineRe("https://pastebin.com/raw/" + address.replace("pastebin:", "") + "/");
 	    		}
 	    		else if(address.contains(".")) {
-	    		String[] urlA = address.split("\\.", -1);	 
-	    			OnlineRequest.getInstance().make("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/" + urlA[1] + "/" + urlA[0],
-	    	        		(success, response)-> {
-	    	        			siteView.setText(response);
-	    	        			bar.setText(urlA[0] + "." + urlA[1]);
-	    	        		});
+	    		String[] urlA = address.split("\\.", -1);	
+	    				OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/" + urlA[1] + "/" + urlA[0]);
 		    		}else {
-		    			siteView.setText("That address didn't look right");
+		    			siteView.setText("That address doesn't look right");
 		    		}
 	    		bar.setFocused(false);
 	    		});
 	    		
-	    		helpBtn.setClickListener((mouseX, mouseY, mouseButton) -> {
-	    			OnlineRequest.getInstance().make("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/info/usefulsites",
-	    	        		(success, response)-> {
-	    	        			siteView.setText(response);
-	    	        			bar.setText("usefulsites.info");
-	    	        			bar.setFocused(false);
-	    	        		});
+	    		homeBtn.setClickListener((mouseX, mouseY, mouseButton) -> {
+	    			OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/official/welcome");
 	    		});
 	}
 	
 
 	
-	void logI(String URL) {
+	void OnlineRe(String URL) {
 		System.out.println(URL);
+		OnlineRequest.getInstance().make(URL,
+        		(success, response)-> {
+        			siteView.setText(response);
+        			bar.setFocused(false);
+        		});
 	}
 	
 	@Override
