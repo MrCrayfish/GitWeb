@@ -77,8 +77,10 @@ public class GitWebApplication extends Application {
 	    		}
 	    			else if(address.contains(".")) {
 	    				String[] urlA = address.split("\\.", -1);	
-	    					OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/" + urlA[1] + "/" + urlA[0]);
-	    				}else {
+	    		
+	    						OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/" + urlA[1] + "/" + urlA[0]);
+
+	    					}else {
 	    					siteView.setText("That address doesn't look right");
 		    		}
 	    			bar.setFocused(false);
