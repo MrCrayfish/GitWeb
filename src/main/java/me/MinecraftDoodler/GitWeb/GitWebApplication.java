@@ -55,7 +55,9 @@ public class GitWebApplication extends Application {
 	    		siteView.setEditable(false);
 	    		siteView.setWrapText(true);
 	    		siteView.setPlaceholder("  If you can see this page it either means you entered an address with no text or your not connected to the internet.\n\n  Gitweb can be accessed via an address like pickaxes.info, the word after the dot denotes the folder within the root directory and the first word identifies the filename of the site within said folder. \n \n  You can also access pastebin files by entering pastebin:PASTE_ID, this feature was added just to add an option for users to experiement with ideas and test the markup. \n \n  Remember in order to function correctly GitWeb and Minecraft itself need access to the internet.");
-	    this.setCurrentLayout(Browser);
+	    
+	    	OnlineRe("https://raw.githubusercontent.com/MinecraftDoodler/GitWeb-Sites/master/official/welcome");	    	
+	    	this.setCurrentLayout(Browser);
 	    		
 	    		
 	    	
