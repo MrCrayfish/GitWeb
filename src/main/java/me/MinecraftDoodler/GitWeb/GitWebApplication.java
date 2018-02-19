@@ -87,7 +87,7 @@ public class GitWebApplication extends Application {
 
 	
 	void OnlineRe(String URL) {
-		System.out.println(URL);
+	
 		OnlineRequest.getInstance().make(URL,
         		(success, response)-> {
         			if(response.startsWith("redirect>")) {
