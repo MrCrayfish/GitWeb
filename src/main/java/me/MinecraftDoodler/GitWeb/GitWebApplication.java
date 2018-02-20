@@ -86,29 +86,9 @@ public class GitWebApplication extends Application {
 	
 
 	
-	void OnlineRe(String URL) {
+
 	
-		OnlineRequest.getInstance().make(URL,
-        		(success, response)-> {
-        			if(response.startsWith("redirect>")) {
-        				String reD = response;
-        				reD = reD.substring(reD.indexOf(">") + 1);
-        				reD = reD.substring(0, reD.indexOf("<"));
-        				GitWebLink(reD, false);
-        				return;
-        			}
-        			if(response.startsWith("masked_redirect>")) {
-        				String reD = response;
-        				reD = reD.substring(reD.indexOf(">") + 1);
-        				reD = reD.substring(0, reD.indexOf("<"));
-        				GitWebLink(reD, true);
-        				return;
-        			}
-        			siteView.setText(response);
-        			bar.setFocused(false);
-        		});
-	}
-	
+	//Attempt to load 'GitWeb' link.
 	void GitWebLink(String address, Boolean masked) {
 		if(address.contains(".")) {
 			if(!masked) {
@@ -125,6 +105,32 @@ public class GitWebApplication extends Application {
 				}else {
 				siteView.setText("That address doesn't look right");
 		}
+	}
+	//Makes online Request with redirects and other stuff!
+	void OnlineRe(String URL) {
+		
+		OnlineRequest.getInstance().make(URL,
+        		(success, response)-> {
+        			//Redirects to another GitWeb site!
+        			  //pastebin's can not be redirected to.
+        			if(response.startsWith("redirect>")) {
+        				String reD = response;
+        				reD = reD.substring(reD.indexOf(">") + 1);
+        				reD = reD.substring(0, reD.indexOf("<"));
+        				GitWebLink(reD, false);
+        				return;
+        			}
+        			//Masked redirect to another site! (Keeps redirecting sites address in bar)
+        			if(response.startsWith("masked_redirect>")) {
+        				String reD = response;
+        				reD = reD.substring(reD.indexOf(">") + 1);
+        				reD = reD.substring(0, reD.indexOf("<"));
+        				GitWebLink(reD, true);
+        				return;
+        			}
+        			siteView.setText(response);
+        			bar.setFocused(false);
+        		});
 	}
 	
 	@Override
