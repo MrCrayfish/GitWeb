@@ -2,6 +2,8 @@ package me.MinecraftDoodler.GitWeb;
 
 import java.awt.Color;
 
+import org.lwjgl.input.Keyboard;
+
 import com.mrcrayfish.device.api.app.Application;
 import com.mrcrayfish.device.api.app.Icons;
 import com.mrcrayfish.device.api.app.Layout;
@@ -18,6 +20,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.network.ServerToClientConnectionEstablishedHandler;
 
 public class GitWebApplication extends Application {
+
 
 	
 	public Layout Browser;
@@ -66,11 +69,9 @@ public class GitWebApplication extends Application {
 	    			address = bar.getText();
 	    			address.replace(" ", "");
 	    		
-	    			if(address.startsWith("pastebin:") || address.startsWith("rawpastebin:") || address.startsWith("rawpaste:")) {
-	    				OnlineRe("https://pastebin.com/raw/" + address.replace("paste", "").replace("raw", "").replace("bin", "").replace(":", "") + "/");
-	    		}else
-	    			GitWebLink(address, false);
-	    			bar.setFocused(false);
+	    					PasteBinLink(address, false);
+	    		
+	    		
 	    		});
 	    		
 	    		homeBtn.setClickListener((mouseX, mouseY, mouseButton) -> {
@@ -84,9 +85,18 @@ public class GitWebApplication extends Application {
     		});
 	}
 	
-
+	//Paste bin then moves on to GitWeb
+	void PasteBinLink(String address, Boolean masked) {
+		bar.setFocused(false);
+		if(!masked) {
+			bar.setText(address);
+			}
+		if(address.startsWith("pastebin:") || address.startsWith("rawpastebin:") || address.startsWith("rawpaste:")) {
+			OnlineRe("https://pastebin.com/raw/" + address.replace("paste", "").replace("raw", "").replace("bin", "").replace(":", "") + "/");
+		}else
+			GitWebLink(address, false);
 	
-
+	}
 	
 	//Attempt to load 'GitWeb' link.
 	void GitWebLink(String address, Boolean masked) {
@@ -108,7 +118,7 @@ public class GitWebApplication extends Application {
 	}
 	//Makes online Request with redirects and other stuff!
 	void OnlineRe(String URL) {
-		
+		bar.setFocused(false);
 		OnlineRequest.getInstance().make(URL,
         		(success, response)-> {
         			//Redirects to another GitWeb site!
@@ -128,10 +138,26 @@ public class GitWebApplication extends Application {
         				GitWebLink(reD, true);
         				return;
         			}
+        			siteView.setText("");
+        			
         			siteView.setText(response);
         			bar.setFocused(false);
         		});
+		
+		
 	}
+	
+	//check for enter key
+	@Override
+    public void handleKeyTyped(char character, int code) {
+        super.handleKeyTyped(character, code);
+		String address;
+		address = bar.getText();
+		address.replace(" ", "");
+        if (code == Keyboard.KEY_RETURN) {
+        		PasteBinLink(address, false);
+        }
+    }
 	
 	@Override
 	public void load(NBTTagCompound arg0) {

@@ -11,7 +11,7 @@
   "credits": "",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": [],
   "parent": [cdm]
 }
 ]
