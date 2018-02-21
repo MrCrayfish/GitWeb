@@ -5,6 +5,8 @@ import java.awt.Color;
 import org.lwjgl.input.Keyboard;
 
 import com.mrcrayfish.device.api.app.Application;
+import com.mrcrayfish.device.api.app.Dialog;
+import com.mrcrayfish.device.api.app.Dialog.Confirmation;
 import com.mrcrayfish.device.api.app.Icons;
 import com.mrcrayfish.device.api.app.Layout;
 import com.mrcrayfish.device.api.app.component.Button;
@@ -46,6 +48,7 @@ public class GitWebApplication extends Application {
 	    settingsBtn = new Button(342, 5, 16, 16, Icons.WRENCH);
 	    siteView = new TextArea(3, 25, 355, 135); //100
 
+	    
 	    Browser.addComponent(bar);
 			bar.setPlaceholder("Enter Address");
 		Browser.addComponent(searchBtn);
@@ -92,6 +95,11 @@ public class GitWebApplication extends Application {
 			bar.setText(address);
 			}
 		if(address.startsWith("pastebin:") || address.startsWith("rawpastebin:") || address.startsWith("rawpaste:")) {
+			
+			Confirmation pasteBinConfirm = new Confirmation("Are you sure... Pastebins are not moderated by the §aGitWeb§r team!");
+            pasteBinConfirm.setTitle("Load Pastebin!");
+            this.openDialog(pasteBinConfirm);
+
 			OnlineRe("https://pastebin.com/raw/" + address.replace("paste", "").replace("raw", "").replace("bin", "").replace(":", "") + "/");
 		}else
 			GitWebLink(address, false);
