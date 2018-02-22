@@ -88,6 +88,7 @@ public class GitWebApplication extends Application {
     		});
 	}
 	
+	
 	//Paste bin then moves on to GitWeb
 	void PasteBinLink(String address, Boolean masked) {
 		bar.setFocused(false);
@@ -99,9 +100,14 @@ public class GitWebApplication extends Application {
 			Confirmation pasteBinConfirm = new Confirmation("Are you sure... Pastebins are not moderated by the §aGitWeb§r team!");
             pasteBinConfirm.setTitle("Load Pastebin!");
             this.openDialog(pasteBinConfirm);
+        		pasteBinConfirm.setPositiveListener((mouseX1, mouseY1, mouseButton1) -> {
+        			OnlineRe("https://pastebin.com/raw/" + address.replace("paste", "").replace("raw", "").replace("bin", "").replace(":", "") + "/");
+            });
+        		pasteBinConfirm.setNegativeListener((mouseX1, mouseY1, mouseButton1) -> {
+        			siteView.setText("This file did not get permission to load!");
+            });
 
-			OnlineRe("https://pastebin.com/raw/" + address.replace("paste", "").replace("raw", "").replace("bin", "").replace(":", "") + "/");
-		}else
+				}else
 			GitWebLink(address, false);
 	
 	}
