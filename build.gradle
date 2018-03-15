@@ -34,12 +34,12 @@ minecraft {
 }
 
 repositories {
-    //maven { url = "https://mrcrayfish.com/maven" }
+    maven { url = "https://mrcrayfish.com/maven" }
 }
 
 
 dependencies {
-    //compile "com.mrcrayfish:device-api:0.3.0-1.12.2"
+    compile "com.mrcrayfish:device-api:0.3.0-1.12.2"
 }
 
 processResources {
