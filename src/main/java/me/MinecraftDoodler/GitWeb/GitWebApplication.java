@@ -108,7 +108,7 @@ public class GitWebApplication extends Application {
             });
 
 				}else
-			GitWebLink(address, false);
+			GitWebLink(address, masked);
 	
 	}
 	
